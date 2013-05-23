@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta27.2.dtd" >
-   <PATCH nodename="E:\My Documents\Desktop\SinaWeibo(SinaWeibo) Help.v4p" systemname="SinaWeibo (SinaWeibo))" filename="E:\My Documents\Desktop\SinaWeibo(SinaWeibo) Help.v4p">
+   <PATCH nodename="E:\My Documents\Documents\GitHub\sina-weibo-on-vvvv\SinaWeibo(SinaWeibo) Help.v4p" systemname="SinaWeibo (SinaWeibo))" filename="E:\My Documents\Desktop\SinaWeibo(SinaWeibo) Help.v4p">
    <BOUNDS type="Window" left="2085" top="1410" width="18375" height="9045">
    </BOUNDS>
    <NODE systemname="Publish (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="Publish (SinaWeibo 0.0.1)" componentmode="Hidden" id="2">
@@ -17,7 +17,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="1710" top="585" width="1965" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="165194">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -35,7 +35,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="3750" top="585" width="1980" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="90d74122a932874ce0c27b92f2d91e0c">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -53,7 +53,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5805" top="585" width="1995" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="http://www.hudo.it">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -71,7 +71,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="300" top="2010" width="885" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="agalloch21@yahoo.com.cn">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -89,7 +89,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="1260" top="1995" width="885" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="AmGaYMkBm">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -259,7 +259,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="7815" top="1995" width="1125" height="255">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -269,7 +269,7 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="1">
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Login">
@@ -279,7 +279,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="5310" top="2010" width="1200" height="240">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" encoded="0" values="3bfcec64b9acf161ab9cfb39329ae727">
+   <PIN pinname="Input String" slicecount="1" encoded="0" values="||">
    </PIN>
    <PIN pinname="Default" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -297,7 +297,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="9135" top="1995" width="1245" height="240">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
@@ -307,7 +307,7 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Toggle">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="1">
+   <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="21" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Remember Me">
@@ -505,7 +505,7 @@
    </BOUNDS>
    <BOUNDS type="Box" left="10515" top="5115" width="330" height="270">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="23">
+   <PIN pinname="Y Input Value" slicecount="1" values="20">
    </PIN>
    <PIN pinname="Units" slicecount="1" encoded="0" values="||">
    </PIN>
