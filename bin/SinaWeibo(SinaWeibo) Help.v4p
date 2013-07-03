@@ -1,17 +1,7 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta27.2.dtd" >
-   <PATCH nodename="E:\My Documents\Documents\GitHub\sina-weibo-on-vvvv\SinaWeibo(SinaWeibo) Help.v4p" systemname="SinaWeibo (SinaWeibo))" filename="E:\My Documents\Desktop\SinaWeibo(SinaWeibo) Help.v4p">
-   <BOUNDS type="Window" left="2085" top="1410" width="18375" height="9045">
+   <PATCH nodename="D:\My Documents\Documents\GitHub\sina-weibo-on-vvvv\bin\SinaWeibo(SinaWeibo) Help.v4p" systemname="SinaWeibo (SinaWeibo))" filename="E:\My Documents\Desktop\SinaWeibo(SinaWeibo) Help.v4p">
+   <BOUNDS type="Window" left="2520" top="3225" width="18375" height="9045">
    </BOUNDS>
-   <NODE systemname="Publish (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="Publish (SinaWeibo 0.0.1)" componentmode="Hidden" id="2">
-   <BOUNDS type="Node" left="7425" top="5775" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="Text">
-   </PIN>
-   <PIN pinname="Publish">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="3" systemname="IOBox (String)">
    <BOUNDS type="Node" left="1710" top="585" width="0" height="0">
    </BOUNDS>
@@ -131,9 +121,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="11" systemname="IOBox (String)">
-   <BOUNDS type="Node" left="7440" top="4860" width="0" height="0">
+   <BOUNDS type="Node" left="7485" top="4785" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="7440" top="4860" width="1005" height="525">
+   <BOUNDS type="Box" left="7485" top="4785" width="780" height="525">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="1" encoded="0" values="这条微博使用vvvv发的">
    </PIN>
@@ -143,13 +133,15 @@
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Text">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="11" srcpinname="Output String" dstnodeid="2" dstpinname="Text">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="12" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="8535" top="4890" width="0" height="0">
+   <BOUNDS type="Node" left="8970" top="4770" width="0" height="0">
    </BOUNDS>
-   <BOUNDS type="Box" left="8535" top="4890" width="480" height="480">
+   <BOUNDS type="Box" left="8970" top="4770" width="585" height="540">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
@@ -166,72 +158,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Publish">
    </PIN>
    </NODE>
-   <LINK srcnodeid="12" srcpinname="Y Output Value" dstnodeid="2" dstpinname="Publish">
-   </LINK>
-   <NODE systemname="Authorize(Local) (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="Authorize(Local) (SinaWeibo 0.0.1)" componentmode="Hidden" id="14">
-   <BOUNDS type="Node" left="945" top="2760" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="AppKey" visible="1" encoded="0">
-   </PIN>
-   <PIN pinname="AppSecret" visible="1" encoded="0">
-   </PIN>
-   <PIN pinname="Callback URL" visible="1" encoded="0">
-   </PIN>
-   <PIN pinname="Username" visible="1">
-   </PIN>
-   <PIN pinname="Password" visible="1">
-   </PIN>
-   <PIN pinname="Authorize" visible="1">
-   </PIN>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="username_in" visible="1">
-   </PIN>
-   <PIN pinname="password_in" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="6" srcpinname="Output String" dstnodeid="14" dstpinname="Username">
-   </LINK>
-   <LINK srcnodeid="7" srcpinname="Output String" dstnodeid="14" dstpinname="Password">
-   </LINK>
-   <NODE systemname="Authorize(Web) (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="Authorize(Web) (SinaWeibo 0.0.1)" componentmode="Hidden" id="17">
-   <BOUNDS type="Node" left="7140" top="2745" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="AppKey" visible="1">
-   </PIN>
-   <PIN pinname="AppSecret" visible="1">
-   </PIN>
-   <PIN pinname="Callback URL" visible="1">
-   </PIN>
-   <PIN pinname="Authorize">
-   </PIN>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="Login">
-   </PIN>
-   <PIN pinname="URL Code">
-   </PIN>
-   <PIN pinname="Remember Me">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="3" srcpinname="Output String" dstnodeid="17" dstpinname="AppKey" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="1950" y="1780">
-   </LINKPOINT>
-   <LINKPOINT x="6960" y="1760">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="17" dstpinname="AppSecret" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="3600" y="1780">
-   </LINKPOINT>
-   <LINKPOINT x="7560" y="1760">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="17" dstpinname="Callback URL" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="5980" y="1798">
-   </LINKPOINT>
-   <LINKPOINT x="7430" y="1773">
-   </LINKPOINT>
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="18" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="6570" top="1995" width="0" height="0">
    </BOUNDS>
@@ -252,8 +178,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="||">
    </PIN>
    </NODE>
-   <LINK srcnodeid="18" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Authorize">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="19" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="7815" top="1995" width="0" height="0">
    </BOUNDS>
@@ -272,8 +196,6 @@
    <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Login">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="20" systemname="IOBox (String)">
    <BOUNDS type="Node" left="5310" top="2010" width="0" height="0">
    </BOUNDS>
@@ -290,8 +212,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="||">
    </PIN>
    </NODE>
-   <LINK srcnodeid="20" srcpinname="Output String" dstnodeid="17" dstpinname="URL Code">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="21" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="9135" top="1995" width="0" height="0">
    </BOUNDS>
@@ -310,8 +230,6 @@
    <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <LINK srcnodeid="21" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Remember Me">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="22" systemname="IOBox (String)">
    <BOUNDS type="Node" left="720" top="6210" width="0" height="0">
    </BOUNDS>
@@ -348,40 +266,6 @@
    <BOUNDS type="Window" left="0" top="7965" width="6240" height="5010">
    </BOUNDS>
    </NODE>
-   <NODE systemname="Profile (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="Profile (SinaWeibo 0.0.1)" componentmode="Hidden" id="25">
-   <BOUNDS type="Node" left="780" top="5205" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="ScreenName" visible="1">
-   </PIN>
-   <PIN pinname="Location" visible="1">
-   </PIN>
-   <PIN pinname="Description" visible="1">
-   </PIN>
-   <PIN pinname="Gender" visible="1">
-   </PIN>
-   </NODE>
-   <NODE systemname="UserInfo (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="UserInfo (SinaWeibo 0.0.1)" componentmode="Hidden" id="26">
-   <BOUNDS type="Node" left="3885" top="5220" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="UserName">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="25" dstpinname="Client">
-   </LINK>
-   <LINK srcnodeid="25" srcpinname="ScreenName" dstnodeid="9" dstpinname="Input String">
-   </LINK>
-   <LINK srcnodeid="25" srcpinname="Location" dstnodeid="10" dstpinname="Input String">
-   </LINK>
-   <LINK srcnodeid="25" srcpinname="Description" dstnodeid="22" dstpinname="Input String">
-   </LINK>
-   <LINK srcnodeid="25" srcpinname="Gender" dstnodeid="23" dstpinname="Input String">
-   </LINK>
-   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="26" dstpinname="Client">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="27" systemname="IOBox (String)">
    <BOUNDS type="Node" left="5100" top="4560" width="0" height="0">
    </BOUNDS>
@@ -400,8 +284,6 @@
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="27" srcpinname="Output String" dstnodeid="26" dstpinname="UserName">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="28" systemname="IOBox (String)">
    <BOUNDS type="Node" left="3465" top="5610" width="0" height="0">
    </BOUNDS>
@@ -417,9 +299,9 @@
    </PIN>
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Input String">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="26" srcpinname="ScreenName" dstnodeid="28" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="29" systemname="IOBox (String)">
    <BOUNDS type="Node" left="4335" top="5625" width="0" height="0">
    </BOUNDS>
@@ -435,9 +317,9 @@
    </PIN>
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Input String">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="26" srcpinname="Location" dstnodeid="29" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="30" systemname="IOBox (String)">
    <BOUNDS type="Node" left="5280" top="5640" width="0" height="0">
    </BOUNDS>
@@ -453,9 +335,9 @@
    </PIN>
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Input String">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="26" srcpinname="Description" dstnodeid="30" dstpinname="Input String">
-   </LINK>
    <NODE systemname="Renderer (HTML String)" nodename="Renderer (HTML String)" componentmode="InABox" id="32">
    <BOUNDS type="Node" left="12225" top="210" width="100" height="100">
    </BOUNDS>
@@ -466,22 +348,6 @@
    <PIN pinname="Input" encoded="0" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="StatusList (SinaWeibo 0.0.1)" filename="G:\WorkSpaces\vvvv-sdk-develop\vvvv-sdk\vvvv45\addonpack\src\nodes\plugins\Network\SinaWeibo\SinaWeibo.dll" nodename="StatusList (SinaWeibo 0.0.1)" componentmode="Hidden" id="33">
-   <BOUNDS type="Node" left="10005" top="5760" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Client" visible="1">
-   </PIN>
-   <PIN pinname="Status Count">
-   </PIN>
-   <PIN pinname="Html" visible="1">
-   </PIN>
-   <PIN pinname="Update">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="33" dstpinname="Client">
-   </LINK>
-   <LINK srcnodeid="33" srcpinname="Html" dstnodeid="32" dstpinname="Input">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="36" systemname="IOBox (String)">
    <BOUNDS type="Node" left="9465" top="6150" width="0" height="0">
    </BOUNDS>
@@ -497,13 +363,13 @@
    </PIN>
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Input String">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="33" srcpinname="ScreenName" dstnodeid="36" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="37" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Node" left="10515" top="5115" width="330" height="270">
+   <BOUNDS type="Node" left="10035" top="4935" width="330" height="270">
    </BOUNDS>
-   <BOUNDS type="Box" left="10515" top="5115" width="330" height="270">
+   <BOUNDS type="Box" left="10035" top="4935" width="330" height="270">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" values="20">
    </PIN>
@@ -521,11 +387,11 @@
    </PIN>
    <PIN pinname="String Type">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="|Status Count|">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Count">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="37" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Status Count">
-   </LINK>
    <NODE id="38" systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" hiddenwhenlocked="0" managers="">
    <BOUNDS type="Node" left="1665" top="255" width="100" height="100">
    </BOUNDS>
@@ -574,28 +440,6 @@
    <PIN pinname="ID" pintype="Output" visible="-1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="3" srcpinname="Output String" dstnodeid="14" dstpinname="AppKey" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="1480" y="1808">
-   </LINKPOINT>
-   <LINKPOINT x="1220" y="1778">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="14" dstpinname="AppSecret" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="3130" y="1808">
-   </LINKPOINT>
-   <LINKPOINT x="1865" y="1778">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="14" dstpinname="Callback URL" hiddenwhenlocked="1" linkstyle="Bezier">
-   <LINKPOINT x="5495" y="1803">
-   </LINKPOINT>
-   <LINKPOINT x="1840" y="1768">
-   </LINKPOINT>
-   </LINK>
-   <LINK srcnodeid="6" srcpinname="Output String" dstnodeid="14" dstpinname="username_in">
-   </LINK>
-   <LINK srcnodeid="7" srcpinname="Output String" dstnodeid="14" dstpinname="password_in">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="41" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="2265" top="1980" width="0" height="0">
    </BOUNDS>
@@ -613,9 +457,9 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="||">
    </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="41" srcpinname="Y Output Value" dstnodeid="14" dstpinname="Authorize">
-   </LINK>
    <NODE id="42" systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" hiddenwhenlocked="0" managers="">
    <BOUNDS type="Node" left="255" top="1695" width="100" height="100">
    </BOUNDS>
@@ -728,8 +572,6 @@
    <PIN pinname="Size" slicecount="1" values="8">
    </PIN>
    </NODE>
-   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="2" dstpinname="Client">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="45" systemname="IOBox (String)">
    <BOUNDS type="Node" left="10455" top="6135" width="0" height="0">
    </BOUNDS>
@@ -745,9 +587,9 @@
    </PIN>
    <PIN pinname="Show Grid" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Input String">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="33" srcpinname="Text" dstnodeid="45" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="46" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Node" left="11265" top="4995" width="0" height="0">
    </BOUNDS>
@@ -766,8 +608,6 @@
    <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Update">
    </PIN>
    </NODE>
-   <LINK srcnodeid="46" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Update">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="47" systemname="IOBox (String)">
    <BOUNDS type="Node" left="315" top="3255" width="6450" height="270">
    </BOUNDS>
@@ -846,4 +686,224 @@
    <PIN pinname="Size" slicecount="1" values="8">
    </PIN>
    </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="52" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Node" left="10515" top="4935" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="10515" top="4935" width="465" height="240">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" encoded="0" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="Page">
+   </PIN>
+   </NODE>
+   <NODE systemname="Authorize(Local) (SinaWeibo)" filename="SinaWeibo.dll" nodename="Authorize(Local) (SinaWeibo)" componentmode="Hidden" id="14">
+   <BOUNDS type="Node" left="945" top="2760" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="AppKey" visible="1" encoded="0">
+   </PIN>
+   <PIN pinname="AppSecret" visible="1" encoded="0">
+   </PIN>
+   <PIN pinname="Callback URL" visible="1" encoded="0">
+   </PIN>
+   <PIN pinname="Username" visible="1">
+   </PIN>
+   <PIN pinname="Password" visible="1">
+   </PIN>
+   <PIN pinname="Authorize" visible="1">
+   </PIN>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="username_in" visible="1">
+   </PIN>
+   <PIN pinname="password_in" visible="1">
+   </PIN>
+   <PIN pinname="Login" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Output String" dstnodeid="14" dstpinname="Username">
+   </LINK>
+   <LINK srcnodeid="7" srcpinname="Output String" dstnodeid="14" dstpinname="Password">
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Output String" dstnodeid="14" dstpinname="AppKey" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="1480" y="1808">
+   </LINKPOINT>
+   <LINKPOINT x="1220" y="1778">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="14" dstpinname="AppSecret" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="3130" y="1808">
+   </LINKPOINT>
+   <LINKPOINT x="1865" y="1778">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="14" dstpinname="Callback URL" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="5495" y="1803">
+   </LINKPOINT>
+   <LINKPOINT x="1840" y="1768">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="41" srcpinname="Y Output Value" dstnodeid="14" dstpinname="Login">
+   </LINK>
+   <NODE systemname="Authorize(Web) (SinaWeibo)" filename="SinaWeibo.dll" nodename="Authorize(Web) (SinaWeibo)" componentmode="Hidden" id="17">
+   <BOUNDS type="Node" left="7140" top="2745" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="AppKey" visible="1">
+   </PIN>
+   <PIN pinname="AppSecret" visible="1">
+   </PIN>
+   <PIN pinname="Callback URL" visible="1">
+   </PIN>
+   <PIN pinname="Authorize">
+   </PIN>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="Login">
+   </PIN>
+   <PIN pinname="URL Code">
+   </PIN>
+   <PIN pinname="Remember Me">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="3" srcpinname="Output String" dstnodeid="17" dstpinname="AppKey" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="1950" y="1780">
+   </LINKPOINT>
+   <LINKPOINT x="6960" y="1760">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Output String" dstnodeid="17" dstpinname="AppSecret" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="3600" y="1780">
+   </LINKPOINT>
+   <LINKPOINT x="7560" y="1760">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="17" dstpinname="Callback URL" hiddenwhenlocked="1" linkstyle="Bezier">
+   <LINKPOINT x="5980" y="1798">
+   </LINKPOINT>
+   <LINKPOINT x="7430" y="1773">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="18" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Authorize">
+   </LINK>
+   <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Login">
+   </LINK>
+   <LINK srcnodeid="20" srcpinname="Output String" dstnodeid="17" dstpinname="URL Code">
+   </LINK>
+   <LINK srcnodeid="21" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Remember Me">
+   </LINK>
+   <NODE systemname="Profile (SinaWeibo)" filename="SinaWeibo.dll" nodename="Profile (SinaWeibo)" componentmode="Hidden" id="25">
+   <BOUNDS type="Node" left="780" top="5205" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="ScreenName" visible="1">
+   </PIN>
+   <PIN pinname="Location" visible="1">
+   </PIN>
+   <PIN pinname="Description" visible="1">
+   </PIN>
+   <PIN pinname="Gender" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="ScreenName" dstnodeid="9" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="25" srcpinname="Location" dstnodeid="10" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="25" srcpinname="Description" dstnodeid="22" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="25" srcpinname="Gender" dstnodeid="23" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="25" dstpinname="Client">
+   </LINK>
+   <NODE systemname="UserInfo (SinaWeibo)" filename="SinaWeibo.dll" nodename="UserInfo (SinaWeibo)" componentmode="Hidden" id="26">
+   <BOUNDS type="Node" left="3885" top="5220" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="UserName">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="27" srcpinname="Output String" dstnodeid="26" dstpinname="UserName">
+   </LINK>
+   <LINK srcnodeid="26" srcpinname="ScreenName" dstnodeid="28" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="26" srcpinname="Location" dstnodeid="29" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="26" srcpinname="Description" dstnodeid="30" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="26" dstpinname="Client">
+   </LINK>
+   <NODE systemname="Publish (SinaWeibo)" filename="SinaWeibo.dll" nodename="Publish (SinaWeibo)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="7425" top="5970" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="Text" visible="1">
+   </PIN>
+   <PIN pinname="Publish">
+   </PIN>
+   <PIN pinname="Image Path">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Y Output Value" dstnodeid="2" dstpinname="Publish">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="2" dstpinname="Client">
+   </LINK>
+   <NODE systemname="StatusList (SinaWeibo)" filename="SinaWeibo.dll" nodename="StatusList (SinaWeibo)" componentmode="Hidden" id="33">
+   <BOUNDS type="Node" left="10005" top="5760" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="Status Count">
+   </PIN>
+   <PIN pinname="Html" visible="1">
+   </PIN>
+   <PIN pinname="Update">
+   </PIN>
+   <PIN pinname="Count" visible="1">
+   </PIN>
+   <PIN pinname="Page">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="33" srcpinname="Html" dstnodeid="32" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="33" srcpinname="ScreenName" dstnodeid="36" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="33" srcpinname="Text" dstnodeid="45" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="46" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Update">
+   </LINK>
+   <LINK srcnodeid="37" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Count">
+   </LINK>
+   <LINK srcnodeid="52" srcpinname="Y Output Value" dstnodeid="33" dstpinname="Page">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Client" dstnodeid="33" dstpinname="Client">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="55" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="8295" top="4770" width="0" height="0">
+   </BOUNDS>
+   <BOUNDS type="Box" left="8295" top="4770" width="645" height="540">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||" encoded="0">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|Image Files||*.jpg;*.jpeg;*.png;*.gif|" encoded="0">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Image" encoded="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="55" srcpinname="Output String" dstnodeid="2" dstpinname="Image Path">
+   </LINK>
+   <LINK srcnodeid="11" srcpinname="Output String" dstnodeid="2" dstpinname="Text">
+   </LINK>
    </PATCH>

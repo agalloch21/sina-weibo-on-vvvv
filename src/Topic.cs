@@ -16,17 +16,21 @@ using NetDimension.Weibo;
 namespace VVVV.Nodes
 {
     #region PluginInfo
-    [PluginInfo(Name = "StatusList",
+    [PluginInfo(Name = "Topic",
                 Category = "SinaWeibo",
+                Version = "0.0.1",
                 Help = "Show Statuses",
                 Author = "agalloch21")]
     #endregion PluginInfo
-    public class WeiboStatusList : IPluginEvaluate
+    public class WeiboTopic : IPluginEvaluate
     {
         #region fields & pins
         //vvvv
         [Input("Client", IsSingle = true)]
         IDiffSpread<NetDimension.Weibo.Client> client_in;
+
+        [Input("Topic", IsSingle = true)]
+        IDiffSpread<string> topic_in;
 
         [Input("Count", IsSingle = true, DefaultValue = 20, StepSize = 0, MinValue = 1)]
         IDiffSpread<int> status_count_in;
@@ -91,8 +95,9 @@ namespace VVVV.Nodes
         {
             Html_Out.SliceCount = 1;
 
-            if ((client_in.IsChanged || update_in.IsChanged || status_count_in.IsChanged || status_page_in.IsChanged) 
+            if ((client_in.IsChanged || topic_in.IsChanged || update_in.IsChanged || status_count_in.IsChanged || status_page_in.IsChanged) 
                 && client_in[0] != null 
+                && topic_in[0].Length > 0
                 && status_count_in[0] > 0)
             {
 
@@ -124,7 +129,7 @@ namespace VVVV.Nodes
 
                 //Output
                 StringBuilder statusBuilder = new StringBuilder();
-                var json = client_in[0].API.Entity.Statuses.FriendsTimeline(count: status_count, page:status_page_in[0]);
+                var json = client_in[0].API.Entity.Trends.TrendsStatuses(topic_in[0]);
                 if (json.Statuses != null)
                 {
                     int output_count = 0;

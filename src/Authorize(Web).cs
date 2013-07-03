@@ -21,7 +21,6 @@ namespace VVVV.Nodes
     #region PluginInfo
     [PluginInfo(Name = "Authorize(Web)",
                 Category = "SinaWeibo",
-                Version = "0.0.1",
                 Help = "Authorize on Web",
                 Author = "agalloch21",
                 AutoEvaluate = true)]

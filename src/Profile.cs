@@ -17,7 +17,6 @@ namespace VVVV.Nodes
     #region PluginInfo
     [PluginInfo(Name = "Profile",
                 Category = "SinaWeibo",
-                Version = "0.0.1",
                 Help = "Show Profile",
                 Author = "agalloch21")]
     #endregion PluginInfo

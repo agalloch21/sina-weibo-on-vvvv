@@ -21,7 +21,6 @@ namespace VVVV.Nodes
     #region PluginInfo
     [PluginInfo(Name = "Authorize(Local)",
                 Category = "SinaWeibo",
-                Version = "0.0.1",
                 Help = "Provide username_in & password_in to Authorize",
                 Author = "agalloch21",
                 AutoEvaluate = true)]
@@ -45,7 +44,7 @@ namespace VVVV.Nodes
         [Input("Password")]
         ISpread<string> password_in;
 
-        [Input("Authorize", IsSingle = true, DefaultValue = 0)]
+        [Input("Login", IsSingle = true, DefaultValue = 0)]
         IDiffSpread<bool> authorize_in;
 
         [Output("Client")]
