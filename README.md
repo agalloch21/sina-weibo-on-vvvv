@@ -10,6 +10,7 @@ To use this plugin, you need
 2. a Weibo App created by your account.
 
 How to use it:
+
 1. Apply for a sina developer account
 
 2. Create an Weibo App with your account
