@@ -9,7 +9,12 @@ using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Core.Logging;
 
-using NetDimension.Weibo;
+
+using NetDimension.OpenAuth.Sina;
+using NetDimension.OpenAuth.Winform;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace VVVV.Nodes
@@ -25,7 +30,7 @@ namespace VVVV.Nodes
         #region fields & pins
         //vvvv
         [Input("Client", IsSingle = true)]
-        IDiffSpread<NetDimension.Weibo.Client> client_in;
+        IDiffSpread<SinaWeiboClient> client_in;
 
         [Input("UserName")]
         IDiffSpread<string> username_in;
@@ -67,25 +72,13 @@ namespace VVVV.Nodes
         ILogger FLogger;
         #endregion fields & pins
 
-        string ScreenName;
-        string Location;
-        string Description;
-        string Gender;
-        string Url;
-        string ProfileImageUrl;
-        int StatusesCount;
-        int FriendsCount;
-        int FollowersCount;
-        bool FollowMe;
-        bool OnlineStatus;
-
        #region Evaluate
 
 
         //called when data for any output pin is requested
         public void Evaluate(int SpreadMax)
         {
-            if ((client_in.IsChanged || username_in.IsChanged) && client_in[0] != null && username_in.SliceCount > 0)
+            if ((client_in.IsChanged || username_in.IsChanged) && client_in.SliceCount > 0 && client_in[0] != null && username_in.SliceCount > 0)
             {
                 ScreenName_Out.SliceCount = SpreadMax;
                 Location_Out.SliceCount = SpreadMax;
@@ -114,29 +107,46 @@ namespace VVVV.Nodes
                 }
                 for (int i = 0; i < username_in.SliceCount; i++)
                 {
-                    try
+                    var response = client_in[0].HttpGet("users/show.json", new
                     {
-                        var entity_user_info = client_in[0].API.Entity.Users.Show("", username_in[i]);
-                        ScreenName_Out[i] = entity_user_info.ScreenName;
-                        Location_Out[i] = entity_user_info.Location;
-                        Description_Out[i] = entity_user_info.Description;
-                        Gender_Out[i] = entity_user_info.Gender;
-                        Url_Out[i] = entity_user_info.Url;
-                        ProfileImageUrl_Out[i] = entity_user_info.ProfileImageUrl;
-                        StatusesCount_Out[i] = entity_user_info.StatusesCount;
-                        FriendsCount_Out[i] = entity_user_info.FriendsCount;
-                        FollowersCount_Out[i] = entity_user_info.FollowersCount;
-                        FollowMe_Out[i] = entity_user_info.FollowMe;
-                        OnlineStatus_Out[i] = entity_user_info.OnlineStatus == 1 ? true : false;
-                    }
-                    catch (Exception e)
-                    {
+                        //可以传入一个Dictionary<string,object>类型的对象，也可以直接传入一个匿名类。参数与官方api文档中的参数相对应
+                        screen_name = username_in[i]
+                    });
 
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        response.Content.ReadAsStringAsync().ContinueWith((task) =>
+                        {
+                            var json = JObject.Parse(task.Result);
+                            for (int j = 0; j < username_in.SliceCount; j++ )
+                            {
+                                if (username_in[j] == json.Value<string>("screen_name"))
+                                {
+                                    ScreenName_Out[j] = json.Value<string>("screen_name");
+                                    Location_Out[j] = json.Value<string>("location");
+                                    Description_Out[j] = json.Value<string>("description");
+                                    Gender_Out[j] = json.Value<string>("gender");
+                                    Url_Out[j] = json.Value<string>("url");
+                                    ProfileImageUrl_Out[j] = json.Value<string>("profile_image_url");
+                                    StatusesCount_Out[j] = json.Value<int>("statuses_count");
+                                    FriendsCount_Out[j] = json.Value<int>("friends_count");
+                                    FollowersCount_Out[j] = json.Value<int>("followers_count");
+                                    FollowMe_Out[j] = json.Value<bool>("follow_me");
+                                    OnlineStatus_Out[j] = json.Value<bool>("online_status");
+                                }
+                            }
+                               
+                        });
+                    }
+                    else
+                    {
+                        FLogger.Log(LogType.Debug, response.Content.ReadAsStringAsync().Result);
                     }
                 }
             }
 
-            if (client_in[0] == null || username_in.SliceCount <= 0)
+            if (client_in.SliceCount == 0 || client_in[0] == null || username_in.SliceCount <= 0)
             {
                 ScreenName_Out.SliceCount = 0;
                 Location_Out.SliceCount = 0;

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Net.Http;
 
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
@@ -10,7 +11,10 @@ using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Core.Logging;
 
-using NetDimension.Weibo;
+
+using NetDimension.OpenAuth.Sina;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace VVVV.Nodes
@@ -26,7 +30,7 @@ namespace VVVV.Nodes
         #region fields & pins
         //vvvv
         [Input("Client", IsSingle = true)]
-        IDiffSpread<NetDimension.Weibo.Client> client_in;
+        IDiffSpread<SinaWeiboClient> client_in;
 
         [Input("Count", IsSingle = true, DefaultValue = 20, StepSize = 0, MinValue = 1)]
         IDiffSpread<int> status_count_in;
@@ -71,18 +75,6 @@ namespace VVVV.Nodes
         ILogger FLogger;
         #endregion fields & pins
 
-        string ScreenName;
-        string Location;
-        string Description;
-        string Gender;
-        string Url;
-        string ProfileImageUrl;
-        int StatusesCount;
-        int FriendsCount;
-        int FollowersCount;
-        bool FollowMe;
-        bool OnlineStatus;
-
        #region Evaluate
 
 
@@ -92,8 +84,8 @@ namespace VVVV.Nodes
             Html_Out.SliceCount = 1;
 
             if ((client_in.IsChanged || update_in.IsChanged || status_count_in.IsChanged || status_page_in.IsChanged) 
-                && client_in[0] != null 
-                && status_count_in[0] > 0)
+                && client_in.SliceCount > 0 && client_in[0] != null 
+                && status_count_in.SliceCount > 0 && status_count_in[0] > 0)
             {
 
                 //initialize
@@ -123,74 +115,98 @@ namespace VVVV.Nodes
                 Html_Out[0] = "";
 
                 //Output
-                StringBuilder statusBuilder = new StringBuilder();
-                var json = client_in[0].API.Entity.Statuses.FriendsTimeline(count: status_count, page:status_page_in[0]);
-                if (json.Statuses != null)
+                // 调用获取当前登录用户及其所关注用户的最新微博api
+                // 参考：http://open.weibo.com/wiki/2/statuses/friends_timeline
+                client_in[0].HttpGetAsync("statuses/home_timeline.json", new Dictionary<string, object>
+			    {	
+				    //可以传入一个Dictionary<string,object>类型的对象，也可以直接传入一个匿名类。参数与官方api文档中的参数相对应
+				    {"count",status_count}
+			    }).ContinueWith(task =>
                 {
-                    int output_count = 0;
-                    foreach (var status in json.Statuses)
+                    if (task.Result.IsSuccessStatusCode)
                     {
-                        if (status.User == null)
+                        StringBuilder statusBuilder = new StringBuilder();
+
+                        //解析微博开放平台返回的json数据
+                        var json = JObject.Parse(task.Result.Content.ReadAsStringAsync().Result);
+                        int output_count = 0;
+                        foreach (JObject status in json.Value<JArray>("statuses"))
                         {
+                            if (status["user"] == null)
+                            {
+                                output_count++;
+                                continue;
+                            }
+                                
+
+                            if (status["retweeted_status"] != null && status["retweeted_status"]["user"] != null)
+                            {
+                                JObject user = status.Value<JObject>("user");
+                                JObject retweeted = status.Value<JObject>("retweeted_status");
+                                JObject retweeted_user = retweeted.Value<JObject>("user");
+
+                                ScreenName_Out[output_count] = user.Value<string>("screen_name");
+                                Text_Out[output_count] = retweeted.Value<string>("text");
+                                RepostsCount_Out[output_count] = retweeted.Value<int>("reposts_count");
+                                CommentsCount_Out[output_count] = retweeted.Value<int>("comments_count");
+                                OriginalAuthor_Out[output_count] = retweeted_user.Value<string>("screen_name");
+                                OriginalText_Out[output_count] = status.Value<string>("text");
+                                ThumbnailPictureUrl_Out[output_count] = retweeted.Value<string>("thumbnail_pic");
+                                OriginalTextRepostsCount_Out[output_count] = status.Value<int>("reposts_count");
+                                OriginalTextCommentsCount_Out[output_count] = status.Value<int>("comments_count");
+
+                                statusBuilder.AppendFormat(repostPattern,
+                                    status["user"]["profile_image_url"],
+                                    status["user"]["screen_name"],
+                                    status["text"],
+                                    status["retweeted_status"]["user"]["screen_name"],
+                                    status["retweeted_status"]["text"],
+                                    status["retweeted_status"]["thumbnail_pic"] == null ? "" : string.Format(imageParttern, status["retweeted_status"]["thumbnail_pic"]),
+                                    status["retweeted_status"]["reposts_count"],
+                                    status["retweeted_status"]["comments_count"],
+                                    status["reposts_count"],
+                                    status["comments_count"]);
+                            }
+                            else
+                            {
+                                JObject user = status.Value<JObject>("user");
+ 
+                                ScreenName_Out[output_count] = user.Value<string>("screen_name");
+                                Text_Out[output_count] = status.Value<string>("text");
+                                RepostsCount_Out[output_count] = status.Value<int>("reposts_count");
+                                CommentsCount_Out[output_count] = status.Value<int>("comments_count");
+                                OriginalAuthor_Out[output_count] = "";
+                                OriginalText_Out[output_count] = "";
+                                ThumbnailPictureUrl_Out[output_count] = status.Value<string>("thumbnail_pic");
+                                OriginalTextRepostsCount_Out[output_count] = 0;
+                                OriginalTextCommentsCount_Out[output_count] = 0;
+
+                                statusBuilder.AppendFormat(statusPattern,
+                                    status["user"]["profile_image_url"],
+                                    status["user"]["screen_name"],
+                                    status["text"],
+                                    status["thumbnail_pic"] == null ? "" : string.Format(imageParttern, status["thumbnail_pic"]),
+                                    status["reposts_count"],
+                                    status["comments_count"]);
+                            }
+
                             output_count++;
-                            continue;
-                        }
-                            
-                        if (status.RetweetedStatus != null && status.RetweetedStatus.User != null)
-                        {
-                            ScreenName_Out[output_count] = status.User.ScreenName;
-                            Text_Out[output_count] = status.Text;
-                            RepostsCount_Out[output_count] = status.RepostsCount;
-                            CommentsCount_Out[output_count] = status.CommentsCount;
-                            OriginalAuthor_Out[output_count] = status.RetweetedStatus.User.ScreenName;
-                            OriginalText_Out[output_count] = status.RetweetedStatus.Text;
-                            ThumbnailPictureUrl_Out[output_count] = string.IsNullOrEmpty(status.RetweetedStatus.ThumbnailPictureUrl) ? "" : status.RetweetedStatus.ThumbnailPictureUrl;
-                            OriginalTextRepostsCount_Out[output_count] = status.RetweetedStatus.RepostsCount;
-                            OriginalTextCommentsCount_Out[output_count] = status.RetweetedStatus.CommentsCount;
-
-                            statusBuilder.AppendFormat(repostPattern,
-                                status.User.ProfileImageUrl,
-                                status.User.ScreenName,
-                                status.Text,
-                                status.RetweetedStatus.User.ScreenName,
-                                status.RetweetedStatus.Text,
-                                string.IsNullOrEmpty(status.RetweetedStatus.ThumbnailPictureUrl) ? "" :
-                                string.Format(imageParttern, status.RetweetedStatus.ThumbnailPictureUrl),
-                                status.RetweetedStatus.RepostsCount,
-                                status.RetweetedStatus.CommentsCount,
-                                status.RepostsCount, status.CommentsCount);
 
                         }
-                        else
-                        {
-                            ScreenName_Out[output_count] = status.User.ScreenName;
-                            Text_Out[output_count] = status.Text;
-                            RepostsCount_Out[output_count] = status.RepostsCount;
-                            CommentsCount_Out[output_count] = status.CommentsCount;
-                            OriginalAuthor_Out[output_count] = "";
-                            OriginalText_Out[output_count] = "";
-                            ThumbnailPictureUrl_Out[output_count] = string.IsNullOrEmpty(status.ThumbnailPictureUrl) ? "" : status.ThumbnailPictureUrl;
-                            OriginalTextRepostsCount_Out[output_count] = 0;
-                            OriginalTextCommentsCount_Out[output_count] = 0;
 
-                            statusBuilder.AppendFormat(statusPattern,
-                                status.User.ProfileImageUrl,
-                                status.User.ScreenName,
-                                status.Text,
-                                string.IsNullOrEmpty(status.ThumbnailPictureUrl) ? "" :
-                                string.Format(imageParttern, status.ThumbnailPictureUrl),
-                                status.RepostsCount, status.CommentsCount);
-                        }
-                        output_count++;
-
+                        var html = htmlPattern.Replace("<!--StatusesList-->", statusBuilder.ToString());
+                        Html_Out[0] = html;
                     }
-                }//end of output
+                    else
+                    {
+                        FLogger.Log(LogType.Debug, task.Result.Content.ReadAsStringAsync().Result);
+                    }
 
-                Html_Out[0] = htmlPattern.Replace("<!--StatusesList-->", statusBuilder.ToString());
+                });
             }//end of update
 
 
-            if (client_in[0] == null)
+            if (client_in.SliceCount == 0 || client_in[0] == null)
             {
                 ScreenName_Out.SliceCount = 0;
                 Text_Out.SliceCount = 0;

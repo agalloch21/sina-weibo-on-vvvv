@@ -9,7 +9,11 @@ using VVVV.Utils.VColor;
 using VVVV.Utils.VMath;
 using VVVV.Core.Logging;
 
-using NetDimension.Weibo;
+using NetDimension.OpenAuth.Sina;
+using NetDimension.OpenAuth.Winform;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace VVVV.Nodes
@@ -25,7 +29,7 @@ namespace VVVV.Nodes
         #region fields & pins
         //vvvv
         [Input("Client", IsSingle = true)]
-        IDiffSpread<NetDimension.Weibo.Client> client_in;
+        IDiffSpread<SinaWeiboClient> client_in;
 
         [Output("ScreenName")]
         ISpread<string> ScreenName_Out;
@@ -58,59 +62,66 @@ namespace VVVV.Nodes
         ILogger FLogger;
         #endregion fields & pins
 
-        string ScreenName;
-        string Location;
-        string Description;
-        string Gender;
-        string Url;
-        string ProfileImageUrl;
-        int StatusesCount;
-        int FriendsCount;
-        int FollowersCount;
-
        #region Evaluate
 
 
         //called when data for any output pin is requested
         public void Evaluate(int SpreadMax)
         {
-            if (client_in.IsChanged && client_in[0] != null)
+            ScreenName_Out.SliceCount = 1;
+            Location_Out.SliceCount = 1;
+            Description_Out.SliceCount = 1;
+            Gender_Out.SliceCount = 1;
+            Url_Out.SliceCount = 1;
+            ProfileImageUrl_Out.SliceCount = 1;
+            StatusesCount_Out.SliceCount = 1;
+            FriendsCount_Out.SliceCount = 1;
+            FollowersCount_Out.SliceCount = 1;
+
+
+            if (client_in.IsChanged && client_in.SliceCount > 0 && client_in[0] != null)
             {
-                Client client = client_in[0];
-                string uid = client.API.Entity.Account.GetUID();
-                var entity_user_info = client.API.Entity.Users.Show(uid);
-                ScreenName  = entity_user_info.ScreenName;
-                Location = entity_user_info.Location;
-                Description = entity_user_info.Description;
-                Gender = entity_user_info.Gender;
-                Url = entity_user_info.Url;
-                ProfileImageUrl = entity_user_info.ProfileImageUrl;
-                StatusesCount = entity_user_info.StatusesCount;
-                FriendsCount = entity_user_info.FriendsCount;
-                FollowersCount = entity_user_info.FollowersCount;
-            }
-            if(client_in[0] == null)
-            {
-                ScreenName = "";
-                Location = "";
-                Description = "";
-                Gender = "";
-                Url = "";
-                ProfileImageUrl = "";
-                StatusesCount = 0;
-                FriendsCount = 0;
-                FollowersCount = 0;
+                var response = client_in[0].HttpGet("users/show.json", new
+                {
+                    //可以传入一个Dictionary<string,object>类型的对象，也可以直接传入一个匿名类。参数与官方api文档中的参数相对应
+                    uid = client_in[0].UID
+                });
+
+                if (response.IsSuccessStatusCode)
+                {
+                    response.Content.ReadAsStringAsync().ContinueWith((task) =>
+                    {
+                        var json = JObject.Parse(task.Result);
+
+                        ScreenName_Out[0] = json.Value<string>("screen_name");
+                        Location_Out[0] = json.Value<string>("location");
+                        Description_Out[0] = json.Value<string>("description");
+                        Gender_Out[0] = json.Value<string>("gender");
+                        Url_Out[0] = json.Value<string>("url");
+                        ProfileImageUrl_Out[0] = json.Value<string>("profile_image_url");
+                        StatusesCount_Out[0] = json.Value<int>("statuses_count");
+                        FriendsCount_Out[0] = json.Value<int>("friends_count");
+                        FollowersCount_Out[0] = json.Value<int>("followers_count");
+                    });
+                }
+                else
+                {
+                    FLogger.Log(LogType.Error, response.Content.ReadAsStringAsync().Result);
+                }
             }
 
-            ScreenName_Out[0] = ScreenName;
-            Location_Out[0] = Location;
-            Description_Out[0] = Description;
-            Gender_Out[0] = Gender;
-            Url_Out[0] = Url;
-            ProfileImageUrl_Out[0] = ProfileImageUrl;
-            StatusesCount_Out[0] = StatusesCount;
-            FriendsCount_Out[0] = FriendsCount;
-            FollowersCount_Out[0] = FollowersCount;
+            if(client_in.SliceCount == 0 || client_in[0] == null)
+            {
+                ScreenName_Out[0] = "";
+                Location_Out[0] = "";
+                Description_Out[0] = "";
+                Gender_Out[0] = "";
+                Url_Out[0] = "";
+                ProfileImageUrl_Out[0] = "";
+                StatusesCount_Out[0] = 0;
+                FriendsCount_Out[0] = 0;
+                FollowersCount_Out[0] = 0;
+            }
         }
         #endregion
     }

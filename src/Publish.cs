@@ -13,8 +13,10 @@ using VVVV.Utils.VMath;
 using VVVV.Core.Logging;
 
 
-using NetDimension.Weibo;
-
+using NetDimension.OpenAuth.Sina;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace VVVV.Nodes
 {
@@ -30,18 +32,9 @@ namespace VVVV.Nodes
         #region fields & pins
 
 
-        class Info
-        {
-            public int Slice;
-            public int Width;
-            public int Height;
-            public double WaveCount;
-            public byte[] Data;
-        }
-
         //vvvv
         [Input("Client", IsSingle = true)]
-        ISpread<NetDimension.Weibo.Client> client;
+        ISpread<SinaWeiboClient> client;
 
         [Input("Text", IsSingle = true)]
         ISpread<string> text;
@@ -61,39 +54,78 @@ namespace VVVV.Nodes
         //called when data for any output pin is requested
         public void Evaluate(int SpreadMax)
         {
-            if (client[0] != null && publish.IsChanged && publish[0] == true)
+            if (client.SliceCount > 0 && client[0] != null && publish.IsChanged && publish.SliceCount > 0 && publish[0] == true)
             {
                
-                if(image_path[0].Length == 0)
+                //text status
+                if (image_path[0].Length == 0 || File.Exists(image_path[0]) == false)
                 {
-                    client[0].API.Entity.Statuses.Update(text[0]);
-                    FLogger.Log(LogType.Debug, "publish text");
-                }
-                else
-                {
-                    if (image_path[0].Substring(0, 4) == "http")
+                    // 调用发微博api
+                    // 参考：http://open.weibo.com/wiki/2/statuses/update
+                    client[0].HttpPostAsync("statuses/update.json", new
                     {
-                        client[0].API.Entity.Statuses.UploadUrlText(text[0], image_path[0]);
-                        FLogger.Log(LogType.Debug, "publish text with url-image");
+                        status = text[0]
+                    }).ContinueWith(task =>
+                    {
+                        //这里用了个异步方法，发微博不阻塞主线程，任务完成后调用处理方法
+                        StatusPosted(task);
+                    });
+                }
+                else if (File.Exists(image_path[0]))
+                {
+                    byte[] data = System.IO.File.ReadAllBytes(image_path[0]);
+                    if (data != null)
+                    {
+                        // 调用发图片微博api
+                        // 参考：http://open.weibo.com/wiki/2/statuses/upload
+                        client[0].HttpPostAsync("statuses/upload.json", new Dictionary<string, object> 
+				        //当然，这里用匿名类也是可以的
+				        /*
+					        匿名类传参方式：
+				         * new { status = txtStatus.Text, pic = imageFile }
+				         */
+				        {
+					        {"status" ,text[0]},
+					        {"pic" , data} //imgFile: 对于文件上传，这里可以直接传FileInfo对象
+				        }).ContinueWith(task =>
+                        {
+                            //这里用了个异步方法，发微博不阻塞主线程，任务完成后调用处理方法
+                            StatusPosted(task);
+                        });
                     }
                     else
                     {
-                        byte[] data = System.IO.File.ReadAllBytes(image_path[0]);
-                        if (data != null)
+                        // 调用发微博api
+                        // 参考：http://open.weibo.com/wiki/2/statuses/update
+                        client[0].HttpPostAsync("statuses/update.json", new
                         {
-                            client[0].API.Entity.Statuses.Upload(text[0], data);
-                            FLogger.Log(LogType.Debug, "publish text with local-image");
-                        }
-                        else
+                            status = text[0]
+                        }).ContinueWith(task =>
                         {
-                            client[0].API.Entity.Statuses.Update(text[0]);
-                            FLogger.Log(LogType.Debug, "publish text");
-                        }
+                            //这里用了个异步方法，发微博不阻塞主线程，任务完成后调用处理方法
+                            StatusPosted(task);
+                        });
                     }
+               
                 }
             }
             
         }
         #endregion
+
+
+        private void StatusPosted(Task<HttpResponseMessage> task)
+        {
+            var result = task.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                FLogger.Log(LogType.Debug, "Publish Status Done");
+            }
+            else
+            {
+                FLogger.Log(LogType.Debug, "Publish Status Failed");
+                FLogger.Log(LogType.Debug, result.Content.ReadAsStringAsync().Result);
+            }
+        }
     }
 }
